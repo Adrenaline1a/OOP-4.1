@@ -3,6 +3,7 @@
 
 
 import math
+import argparse
 
 
 # Создать класс Triangle для представления треугольника. Поля данных должны включать
@@ -23,7 +24,7 @@ class Triangle:
 		self.p = 0
 
 	def read(self, prompt=None):
-		lst = list(map(int, input('Введите 3 стороны и 3 угла в градусах: ').split(','))) if prompt is None else input(prompt)
+		lst = list(map(int, input('Введите 3 стороны и 3 угла в градусах: ').split())) if prompt is None else input(prompt)
 		self.a = lst[0]
 		self.b = lst[1]
 		self.c = lst[2]
@@ -63,20 +64,48 @@ class Triangle:
 
 
 if __name__ == "__main__":
+	command_line = None
 	Tri = Triangle()
-	while True:
-		mess = input("Введите операцию: ").lower()
-		if mess == '-r':
-			Tri.read()
-		elif mess == '-s':
-			Tri.square()
-		elif mess == '-p':
-			Tri.perimeter()
-		elif mess == '-h':
-			Tri.heights()
-		elif mess == '-v':
-			Tri.view()
-		elif mess == '-dis':
-			Tri.display()
-		elif mess == '-d':
-			Tri.data()
+	file_parser = argparse.ArgumentParser(add_help=False)
+	parser = argparse.ArgumentParser("flights")
+	parser.add_argument(
+		"--version",
+		action="version",
+		version="%(prog)s 0.1.0")
+	subparsers = parser.add_subparsers(dest="command")
+	read = subparsers.add_parser(
+		"read",
+		parents=[file_parser])
+	square = subparsers.add_parser(
+		"square",
+		parents=[file_parser])
+	perimeter = subparsers.add_parser(
+		"perimeter",
+		parents=[file_parser])
+	heights = subparsers.add_parser(
+		"heights",
+		parents=[file_parser])
+	view = subparsers.add_parser(
+		"view",
+		parents=[file_parser])
+	display = subparsers.add_parser(
+		"display",
+		parents=[file_parser])
+	data = subparsers.add_parser(
+		"data",
+		parents=[file_parser])
+	args = parser.parse_args(command_line)
+	if args.command == 'read':
+		Tri.read()
+	elif args.command == 'square':
+		Tri.square()
+	elif args.command == 'perimeter':
+		Tri.perimeter()
+	elif args.command == 'heights':
+		Tri.heights()
+	elif args.command == 'view':
+		Tri.view()
+	elif args.command == 'display':
+		Tri.display()
+	elif args.command == 'data':
+		Tri.data()
